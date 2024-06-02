@@ -1,0 +1,13 @@
+!! Manually input your trained model
+!! Trained models will be available in this same folder
+
+from ultralytics import YOLO
+
+# Load a model
+model = YOLO("yolov8s.yaml")  # build a new model from scratch
+model = YOLO("/mnt/c/Users/ASUS/opencvtube/src/runs/detect/yolov8s HS_ED/weights/last.pt")  # load a pretrained model (recommended for training)
+#"/mnt/c/Users/ASUS/opencvtube/src/runs/detect/yolov8s v1/weights/best.pt"
+# Use the model
+model.train(data="/mnt/c/Users/ASUS/opencvtube/src/yolo_exdark/workspace/Final_Train_ExDark/data.yaml", amp = False, name = 'yolov8s HS_ED', epochs=82, batch = 4, save_period = 1, cos_lr = True, workers = 8, resume = True)  # train the model
+#metrics = model.val(data="/mnt/c/Users/ASUS/opencvtube/src/yolo_exdark/workspace/Final_Train_ExDark/data.yaml", name = "yolov8s ALL_ED_test", batch = 4)  # evaluate model performance on the validation set
+#path = model.export(format="onnx")  # export the model to ONNX format  

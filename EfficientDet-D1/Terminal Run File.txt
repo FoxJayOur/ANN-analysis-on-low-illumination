@@ -1,0 +1,7 @@
+python3 model_main_tf2.py \
+  --pipeline_config_path="" \
+  --model_dir="" \
+  --checkpoint_every_n=1000 \
+  --num_workers=8 \
+  --sample_1_of_n_eval_examples=1 \
+  --alsologtostderr

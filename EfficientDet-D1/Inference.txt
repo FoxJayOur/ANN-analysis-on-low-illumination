@@ -1,0 +1,45 @@
+import cv2
+import skimage
+from skimage import exposure
+import glob
+import os
+
+# Directory containing all your dark images
+image_dir = '/mnt/c/Users/ASUS/opencvtube/src/yolo_exdark/workspace/Final_Train_ExDark/Base_ExDark/train/images/*.jpg'  # Adjust the file extension if necessary
+
+# Get a list of all image file paths in the directory and sort them
+image_file_paths = sorted(glob.glob(image_dir))
+
+# Output directory to save processed images
+output_dir = '/mnt/c/Users/ASUS/opencvtube/src/yolo_exdark/workspace/Final_Train_ExDark/GC'
+
+# Ensure the output directory exists
+os.makedirs(output_dir, exist_ok=True)
+
+# Gamma correction parameters
+gamma = 0.5  # Adjust the gamma value as needed
+
+# Apply gamma correction to each dark image
+for img_path in image_file_paths:
+    image = cv2.imread(img_path)
+    
+    # Convert image to grayscale
+    gray_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    
+    # Apply gamma correction
+    gamma_corrected_image = exposure.adjust_gamma(gray_image, gamma=gamma)
+    
+    # Convert back to BGR color space (if needed)
+    gamma_corrected_bgr_image = cv2.cvtColor(gamma_corrected_image, cv2.COLOR_GRAY2BGR)
+    
+    # Construct the output path
+    filename = os.path.basename(img_path)
+    output_path = os.path.join(output_dir, filename)
+    
+    # Save the processed image
+    success = cv2.imwrite(output_path, gamma_corrected_bgr_image)
+    
+    if success:
+        print(f"Processed image saved successfully: {output_path}")
+    else:
+        print(f"Failed to save processed image: {output_path}")
